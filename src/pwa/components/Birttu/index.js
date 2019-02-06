@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import styled from 'styled-components';
+import { formatDate, formatTime } from '../../utils';
 
 const msgId = '[iFrameSizer]';
 
@@ -78,8 +79,8 @@ class Birttu extends Component {
   };
 
   render() {
-    const { id, title, link, birttuId } = this.props;
-    const src = `https://www.birttu.com/widget/widget.php?idarticulo=${id}&titunoti=${title}&enlace=${link}&idmedio=${birttuId}`;
+    const { id, title, link, date, time, birttuId } = this.props;
+    const src = `https://www.birttu.com/widget/widget.php?idarticulo=${id}&titunoti=${title}&fechanoti=${date}&horanoti=${time}&enlace=${link}&idmedio=${birttuId}`;
     const { height } = this.state;
 
     return (
@@ -101,14 +102,18 @@ Birttu.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   title: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
   birttuId: PropTypes.number.isRequired,
 };
 
 export default inject(({ stores: { connection, settings } }, { type, id }) => {
   const entity = connection.entity(type, id);
-  const { title, link } = entity;
+  const { title, link, creationDate } = entity;
   const { birttuId } = settings.comments;
-  return { id, title, link, birttuId };
+  const date = formatDate(creationDate);
+  const time = formatTime(creationDate);
+  return { id, title, link, date, time, birttuId };
 })(Birttu);
 
 const Iframe = styled.iframe`

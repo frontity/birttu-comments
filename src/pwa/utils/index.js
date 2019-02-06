@@ -19,3 +19,8 @@ export const formatTime = millis => {
 
   return `${hours12}:${minutes} ${period}`;
 };
+
+export const queryString = o =>
+  Object.keys(o)
+    .map(k => `${k}=${o[k]}`)
+    .join('&');

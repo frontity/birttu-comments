@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import styled from 'styled-components';
-import { formatDate, formatTime } from '../../utils';
+import { formatDate, formatTime, queryString } from '../../utils';
 
 const msgId = '[iFrameSizer]';
 
@@ -80,16 +80,23 @@ class Birttu extends Component {
 
   render() {
     const { id, title, link, date, time, birttuId } = this.props;
-    const encodedTitle = encodeURIComponent(title);
-    const src = `https://www.birttu.com/widget/widget.php?idarticulo=${id}&titunoti=${encodedTitle}&fechanoti=${date}&horanoti=${time}&enlace=${link}&idmedio=${birttuId}`;
     const { height } = this.state;
+
+    const params = {
+      idarticulo: id,
+      titunoti: encodeURIComponent(title),
+      enlace: link,
+      fechanoti: date,
+      horanoti: time,
+      idmedio: birttuId,
+    };
 
     return (
       <Iframe
         ref={this.iframeRef}
         id={this.iframeId}
         title="birttu-comments"
-        src={src}
+        src={`https://www.birttu.com/widget/widget.php?${queryString(params)}`}
         frameBorder="0"
         scrolling="no"
         styles={{ height }}

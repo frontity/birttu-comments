@@ -80,7 +80,8 @@ class Birttu extends Component {
 
   render() {
     const { id, title, link, date, time, birttuId } = this.props;
-    const src = `https://www.birttu.com/widget/widget.php?idarticulo=${id}&titunoti=${title}&fechanoti=${date}&horanoti=${time}&enlace=${link}&idmedio=${birttuId}`;
+    const encodedTitle = encodeURIComponent(title);
+    const src = `https://www.birttu.com/widget/widget.php?idarticulo=${id}&titunoti=${encodedTitle}&fechanoti=${date}&horanoti=${time}&enlace=${link}&idmedio=${birttuId}`;
     const { height } = this.state;
 
     return (

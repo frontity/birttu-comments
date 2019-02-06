@@ -107,7 +107,7 @@ Birttu.propTypes = {
 export default inject(({ stores: { connection, settings } }, { type, id }) => {
   const entity = connection.entity(type, id);
   const { title, link } = entity;
-  const { birttuId = 16 } = settings.theme;
+  const { birttuId } = settings.comments;
   return { id, title, link, birttuId };
 })(Birttu);
 
